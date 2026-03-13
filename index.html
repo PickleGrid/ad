@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>PickleGrid Launch</title>
+
+<style>
+
+@font-face {
+  font-family: Champion;
+  src: url("Champion-HTF-Featherweight.otf");
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  background:black;
+  overflow:hidden;
+}
+
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:Champion,Arial,sans-serif;
+  color:white;
+}
+
+.frame{
+  width:1080px;
+  height:1920px;
+  position:relative;
+  overflow:hidden;
+  background:
+    linear-gradient(
+      180deg,
+      #0E1B24 0%,
+      #08121A 40%,
+      #030B13 100%
+    ),
+    radial-gradient(
+      900px 700px at 50% 30%,
+      rgba(175,226,217,0.05),
+      transparent 60%
+    ),
+    radial-gradient(
+      700px 600px at 50% 80%,
+      rgba(175,226,217,0.04),
+      transparent 70%
+    );
+}
+
+/* subtle film grain */
+
+.grain{
+  position:absolute;
+  inset:-20%;
+  opacity:.05;
+  pointer-events:none;
+  background-image:
+    radial-gradient(circle,rgba(255,255,255,.25) 1px,transparent 1px);
+  background-size:12px 12px;
+  animation:grain 6s steps(6) infinite;
+}
+
+@keyframes grain{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(-6px,4px)}
+  50%{transform:translate(4px,-6px)}
+  75%{transform:translate(8px,4px)}
+  100%{transform:translate(0,0)}
+}
+
+.scene{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.stack{
+  width:940px;
+  height:1200px;
+  position:relative;
+}
+
+.layer{
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+/* TEXT BLOCKS */
+
+.text-block{
+  width:100%;
+  height:100%;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  opacity:0;
+  transform:translateY(30px);
+  filter:blur(6px);
+  transition:1s ease;
+}
+
+.show-block{
+  opacity:1;
+  transform:translateY(0);
+  filter:blur(0);
+}
+
+.hide-block{
+  opacity:0;
+  transform:translateY(-20px);
+  filter:blur(6px);
+  transition:.6s ease;
+}
+
+.hide-block-slow{
+  opacity:0;
+  transform:translateY(-20px);
+  filter:blur(6px);
+  transition:.8s ease;
+}
+
+/* hierarchy */
+
+.eyebrow{
+font-size:64px;
+letter-spacing:.22em;
+margin-bottom:40px;
+opacity:.9;
+color:#AFE2D9;
+}
+
+.big-line{
+  font-size:118px;
+  line-height:.95;
+  letter-spacing:.05em;
+}
+
+.mid-line{
+  font-size:104px;
+  line-height:1;
+  letter-spacing:.04em;
+}
+
+.asset-list{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:24px;
+}
+
+.headline{
+  font-size:104px;
+  line-height:1.08;
+  max-width:940px;
+  margin:0 auto;
+  text-align:center;
+}
+
+.accent{
+  color:#AFE2D9;
+}
+
+/* GRID */
+
+.gridWrap{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:1100px;
+  height:1100px;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:opacity .6s ease;
+}
+
+.gridShow{
+  opacity:1;
+}
+
+.grid{
+  position:absolute;
+  inset:0;
+  border-radius:50%;
+  background:
+    linear-gradient(rgba(175,226,217,.12) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(175,226,217,.12) 1px,transparent 1px);
+  background-size:110px 110px;
+  mask-image:radial-gradient(circle,black 45%,transparent 75%);
+  -webkit-mask-image:radial-gradient(circle,black 45%,transparent 75%);
+}
+
+.crossX,.crossY{
+  position:absolute;
+  left:50%;
+  top:50%;
+  background:rgba(175,226,217,.25);
+  transform:translate(-50%,-50%);
+  box-shadow:0 0 26px rgba(175,226,217,.2);
+}
+
+.crossX{width:520px;height:3px;}
+.crossY{width:3px;height:520px;}
+
+.dot{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:18px;
+  height:18px;
+  background:#AFE2D9;
+  border-radius:50%;
+  transform:translate(-50%,-50%);
+  box-shadow:
+    0 0 20px rgba(175,226,217,.9),
+    0 0 48px rgba(175,226,217,.5);
+  opacity:0;
+  transition:opacity .3s ease;
+}
+
+.dotShow{
+  opacity:1;
+}
+
+.impactFlash{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  transform:translate(-50%,-50%) scale(.3);
+  background:radial-gradient(circle,
+    rgba(255,255,255,.95) 0%,
+    rgba(175,226,217,.9) 35%,
+    rgba(175,226,217,.2) 70%,
+    transparent 100%);
+  opacity:0;
+}
+
+.impactFlash.active{
+  animation:impactFlash .4s ease-out forwards;
+}
+
+@keyframes impactFlash{
+  0%{opacity:1;transform:translate(-50%,-50%) scale(.3);}
+  100%{opacity:0;transform:translate(-50%,-50%) scale(3.2);}
+}
+
+/* LOGO STACK */
+
+.logoStack{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:36px;
+}
+
+.pin{
+  width:340px;
+  opacity:0;
+  transform:translateY(-700px) scale(.8);
+}
+
+@keyframes pinDrop{
+  0%{transform:translateY(-700px) scale(.8);opacity:0;}
+  20%{opacity:1;}
+  70%{transform:translateY(12px) scale(1.05);}
+  85%{transform:translateY(-6px) scale(.98);}
+  100%{transform:translateY(0) scale(1);opacity:1;}
+}
+
+.pin.drop{
+  animation:pinDrop 1s cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.typeface{
+  width:920px;
+  opacity:0;
+  transform:translateY(20px);
+  filter:blur(6px);
+  transition:1s ease;
+}
+
+.launch{
+  font-size:64px;
+  letter-spacing:.15em;
+  opacity:0;
+  transform:translateY(16px);
+  transition:1s ease;
+}
+
+.show{
+  opacity:1;
+  transform:translateY(0);
+  filter:blur(0);
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="frame">
+
+  <div class="grain"></div>
+
+  <div class="scene">
+
+    <div class="stack">
+
+      <!-- FRAME 1 -->
+      <div class="layer">
+        <div class="text-block" id="frame1">
+          <div class="eyebrow">SUPPORTING</div>
+          <div class="big-line">FRANCHISORS</div>
+          <div class="big-line">INDEPENDENT OPERATORS</div>
+          <div class="big-line">DEVELOPERS &amp; INVESTORS</div>
+        </div>
+      </div>
+
+      <!-- FRAME 2 -->
+      <div class="layer">
+        <div class="text-block" id="frame2">
+          <div class="eyebrow">WITH SITE INTELLIGENCE ACROSS</div>
+          <div class="asset-list">
+            <div class="mid-line">HIGH-GROWTH SPORT</div>
+            <div class="mid-line">WELLNESS</div>
+            <div class="mid-line">FOOD &amp; BEVERAGE</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FRAME 3 -->
+      <div class="layer">
+        <div class="text-block" id="frame3">
+          <div class="headline">
+            A NEW <span class="accent">GAP MAPPING</span> PLATFORM<br>
+            POWERED BY <span class="accent">ADVANCED AI</span><br>
+            IS COMING SOON
+          </div>
+        </div>
+      </div>
+
+      <!-- FINAL -->
+      <div class="layer">
+        <div class="gridWrap" id="gridWrap">
+          <div class="grid"></div>
+          <div class="crossX"></div>
+          <div class="crossY"></div>
+          <div class="dot" id="dot"></div>
+          <div class="impactFlash" id="impactFlash"></div>
+        </div>
+
+        <div class="logoStack">
+          <img src="pin.png" class="pin" id="pin" alt="Pin">
+          <img src="typeface.png" class="typeface" id="typeface" alt="PickleGrid">
+          <div class="launch" id="launch">
+            LAUNCHING EARLY APRIL
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const wait = ms => new Promise(r=>setTimeout(r,ms))
+
+async function run(){
+
+  frame1.classList.add("show-block")
+  await wait(2700)
+
+  frame1.classList.add("hide-block")
+  await wait(600)
+
+  frame2.classList.add("show-block")
+  await wait(2900)
+
+  frame2.classList.add("hide-block")
+  await wait(600)
+
+  frame3.classList.add("show-block")
+  await wait(2400)
+
+  frame3.classList.add("hide-block-slow")
+  await wait(900)
+
+  /* grid fade */
+
+  gridWrap.classList.add("gridShow")
+  await wait(300)
+
+  dot.classList.add("dotShow")
+  await wait(120)
+
+  /* pin drop */
+
+  pin.classList.add("drop")
+
+  await wait(700)
+
+  impactFlash.classList.add("active")
+
+  await wait(350)
+
+  /* logo */
+
+  typeface.classList.add("show")
+
+  await wait(600)
+
+  /* launch */
+
+  launch.classList.add("show")
+
+}
+
+run()
+
+</script>
+</body>
+</html>
