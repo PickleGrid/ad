@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>  
+<head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PickleGrid Launch</title>
 
 <style>
@@ -21,7 +22,6 @@ html,body{
   width:100%;
   height:100%;
   background:black;
-  overflow:hidden;
 }
 
 body{
@@ -30,25 +30,30 @@ body{
   align-items:center;
   font-family:Champion,Arial,sans-serif;
   color:white;
+  overflow:hidden;
 }
 
-.frame{
-  width:1080px;
-  height:1920px;
-  position:relative;
-  overflow:hidden;
+/* =============================================
+   ANIMATION STAGE — desktop only proportions
+   ============================================= */
+
+#animStage{
+  position:fixed;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
   background:
-    radial-gradient(
-      900px 700px at 50% 30%,
-      rgba(175,226,217,0.04),
-      transparent 60%
-    ),
-    radial-gradient(
-      700px 600px at 50% 80%,
-      rgba(175,226,217,0.03),
-      transparent 70%
-    ),
+    radial-gradient(900px 700px at 50% 30%, rgba(175,226,217,0.04), transparent 60%),
+    radial-gradient(700px 600px at 50% 80%, rgba(175,226,217,0.03), transparent 70%),
     #000000;
+  z-index:10;
+  transition:opacity 1s ease;
+}
+
+#animStage.fadeOut{
+  opacity:0;
+  pointer-events:none;
 }
 
 .grain{
@@ -56,8 +61,7 @@ body{
   inset:-20%;
   opacity:.05;
   pointer-events:none;
-  background-image:
-    radial-gradient(circle,rgba(255,255,255,.25) 1px,transparent 1px);
+  background-image:radial-gradient(circle,rgba(255,255,255,.25) 1px,transparent 1px);
   background-size:12px 12px;
   animation:grain 6s steps(6) infinite;
 }
@@ -70,22 +74,15 @@ body{
   100%{transform:translate(0,0)}
 }
 
-.scene{
-  position:absolute;
-  inset:0;
+.animInner{
+  width:min(940px, 90vw);
+  position:relative;
   display:flex;
   align-items:center;
   justify-content:center;
 }
 
-.formOuter{
-  display:flex;
-  width:940px;
-  gap:120px;
-  align-items:center;
-}
-
-.layer{
+.textSlot{
   position:absolute;
   inset:0;
   display:flex;
@@ -96,8 +93,6 @@ body{
 }
 
 .text-block{
-  width:100%;
-  height:100%;
   display:flex;
   flex-direction:column;
   align-items:center;
@@ -107,44 +102,29 @@ body{
   transform:translateY(30px);
   filter:blur(6px);
   transition:1s ease;
+  padding:20px;
 }
 
-.show-block{
-  opacity:1;
-  transform:translateY(0);
-  filter:blur(0);
-}
-
-.hide-block{
-  opacity:0;
-  transform:translateY(-20px);
-  filter:blur(6px);
-  transition:.6s ease;
-}
-
-.hide-block-slow{
-  opacity:0;
-  transform:translateY(-20px);
-  filter:blur(6px);
-  transition:.8s ease;
-}
+.show-block{ opacity:1; transform:translateY(0); filter:blur(0); }
+.hide-block{ opacity:0; transform:translateY(-20px); filter:blur(6px); transition:.6s ease; }
+.hide-block-slow{ opacity:0; transform:translateY(-20px); filter:blur(6px); transition:.8s ease; }
 
 .eyebrow{
-  font-size:64px;
+  font-size:clamp(24px, 5vw, 64px);
   letter-spacing:.22em;
-  margin-bottom:40px;
+  margin-bottom:clamp(16px,3vw,40px);
   opacity:.9;
   color:#AFE2D9;
 }
 
 .big-line{
-  font-size:118px;
+  font-size:clamp(42px, 9vw, 118px);
   line-height:.95;
   letter-spacing:.05em;
 }
 
 .mid-line{
-  font-size:104px;
+  font-size:clamp(36px, 8vw, 104px);
   line-height:1;
   letter-spacing:.04em;
 }
@@ -154,35 +134,31 @@ body{
   flex-direction:column;
   align-items:center;
   justify-content:center;
-  gap:24px;
+  gap:clamp(10px,2vw,24px);
 }
 
 .headline{
-  font-size:104px;
+  font-size:clamp(36px, 7.5vw, 104px);
   line-height:1.08;
-  max-width:940px;
+  max-width:90vw;
   margin:0 auto;
   text-align:center;
 }
 
-.accent{
-  color:#AFE2D9;
-}
+.accent{ color:#AFE2D9; }
 
+/* grid + logo */
 .gridWrap{
   position:absolute;
   left:50%;
   top:50%;
-  width:1100px;
-  height:1100px;
+  width:min(1100px, 90vw);
+  height:min(1100px, 90vw);
   transform:translate(-50%,-50%);
   opacity:0;
   transition:opacity .6s ease;
 }
-
-.gridShow{
-  opacity:1;
-}
+.gridShow{ opacity:1; }
 
 .grid{
   position:absolute;
@@ -204,9 +180,8 @@ body{
   transform:translate(-50%,-50%);
   box-shadow:0 0 26px rgba(175,226,217,.2);
 }
-
-.crossX{width:520px;height:3px;}
-.crossY{width:3px;height:520px;}
+.crossX{width:min(520px,50vw);height:3px;}
+.crossY{width:3px;height:min(520px,50vw);}
 
 .dot{
   position:absolute;
@@ -217,16 +192,11 @@ body{
   background:#AFE2D9;
   border-radius:50%;
   transform:translate(-50%,-50%);
-  box-shadow:
-    0 0 20px rgba(175,226,217,.9),
-    0 0 48px rgba(175,226,217,.5);
+  box-shadow:0 0 20px rgba(175,226,217,.9),0 0 48px rgba(175,226,217,.5);
   opacity:0;
   transition:opacity .3s ease;
 }
-
-.dotShow{
-  opacity:1;
-}
+.dotShow{ opacity:1; }
 
 .impactFlash{
   position:absolute;
@@ -236,17 +206,10 @@ body{
   height:50px;
   border-radius:50%;
   transform:translate(-50%,-50%) scale(.3);
-  background:radial-gradient(circle,
-    rgba(255,255,255,.95) 0%,
-    rgba(175,226,217,.9) 35%,
-    rgba(175,226,217,.2) 70%,
-    transparent 100%);
+  background:radial-gradient(circle,rgba(255,255,255,.95) 0%,rgba(175,226,217,.9) 35%,rgba(175,226,217,.2) 70%,transparent 100%);
   opacity:0;
 }
-
-.impactFlash.active{
-  animation:impactFlash .4s ease-out forwards;
-}
+.impactFlash.active{ animation:impactFlash .4s ease-out forwards; }
 
 @keyframes impactFlash{
   0%{opacity:1;transform:translate(-50%,-50%) scale(.3);}
@@ -254,18 +217,15 @@ body{
 }
 
 .logoStack{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
   display:flex;
   flex-direction:column;
   align-items:center;
-  gap:36px;
+  gap:clamp(18px,3vw,36px);
+  position:relative;
 }
 
 .pin{
-  width:340px;
+  width:min(340px,30vw);
   opacity:0;
   transform:translateY(-700px) scale(.8);
 }
@@ -277,13 +237,10 @@ body{
   85%{transform:translateY(-6px) scale(.98);}
   100%{transform:translateY(0) scale(1);opacity:1;}
 }
-
-.pin.drop{
-  animation:pinDrop 1s cubic-bezier(.2,.8,.2,1) forwards;
-}
+.pin.drop{ animation:pinDrop 1s cubic-bezier(.2,.8,.2,1) forwards; }
 
 .typeface{
-  width:920px;
+  width:min(920px,80vw);
   opacity:0;
   transform:translateY(20px);
   filter:blur(6px);
@@ -291,54 +248,49 @@ body{
 }
 
 .launch{
-  font-size:64px;
+  font-size:clamp(24px,5vw,64px);
   letter-spacing:.15em;
   opacity:0;
   transform:translateY(16px);
   transition:1s ease;
 }
 
-.show{
-  opacity:1;
-  transform:translateY(0);
-  filter:blur(0);
-}
+.show{ opacity:1; transform:translateY(0); filter:blur(0); }
 
 /* =============================================
-   INTEREST FORM PANEL
+   FORM PANEL
    ============================================= */
 
-#formPanel{
+#formPage{
+  position:fixed;
+  inset:0;
   opacity:0;
   pointer-events:none;
   transition:opacity 1.2s ease;
-  align-items:center;
-  justify-content:center;
-  padding:0;
-  position:fixed;
-  inset:0;
-  width:100vw;
-  height:100vh;
-  z-index:100;
+  z-index:20;
+  display:flex;
+  background:#000;
+  overflow-y:auto;
 }
 
-#formPanel.formVisible{
+#formPage.formVisible{
   opacity:1;
   pointer-events:auto;
 }
+
 .formOuter{
   display:flex;
-  width:100vw;
-  height:100vh;
-  gap:0;
+  width:100%;
+  min-height:100%;
+  flex-direction:row;
   align-items:stretch;
 }
 
-  .formLeft{
+.formLeft{
   flex:0 0 50%;
   width:50%;
-  overflow:hidden;
   position:relative;
+  overflow:hidden;
 }
 
 .uxImg{
@@ -353,15 +305,13 @@ body{
   flex:1;
   display:flex;
   flex-direction:column;
-  gap:0;
   justify-content:center;
   padding:60px 80px;
-  overflow-y:auto;
   background:#000;
+  overflow-y:auto;
 }
 
-
-  .formEyebrow{
+.formEyebrow{
   font-size:39px;
   letter-spacing:.22em;
   color:#AFE2D9;
@@ -384,10 +334,9 @@ body{
   color:rgba(255,255,255,0.62);
   font-family:system-ui,-apple-system,sans-serif;
   font-weight:400;
-  letter-spacing:0;
   margin-bottom:32px;
-  max-width:38ch;
   text-align:center;
+  max-width:38ch;
   margin-left:auto;
   margin-right:auto;
 }
@@ -417,26 +366,21 @@ body{
   border:1px solid rgba(255,255,255,0.12);
   border-radius:14px;
   padding:14px 16px;
-  font-size:14px;
+  font-size:16px;
   color:white;
   font-family:system-ui,-apple-system,sans-serif;
   outline:none;
-  transition:border-color 200ms ease, box-shadow 200ms ease;
+  transition:border-color 200ms ease,box-shadow 200ms ease;
   width:100%;
 }
 
-.pgInput::placeholder{
-  color:rgba(255,255,255,0.28);
-}
-
+.pgInput::placeholder{ color:rgba(255,255,255,0.28); }
 .pgInput:focus{
   border-color:rgba(175,226,217,0.45);
   box-shadow:0 0 0 3px rgba(175,226,217,0.08);
 }
 
-.selectWrap{
-  position:relative;
-}
+.selectWrap{ position:relative; }
 
 .pgSelect{
   appearance:none;
@@ -445,13 +389,13 @@ body{
   border:1px solid rgba(255,255,255,0.12);
   border-radius:14px;
   padding:14px 40px 14px 16px;
-  font-size:14px;
+  font-size:16px;
   color:white;
   font-family:system-ui,-apple-system,sans-serif;
   outline:none;
   cursor:pointer;
   width:100%;
-  transition:border-color 200ms ease, box-shadow 200ms ease;
+  transition:border-color 200ms ease,box-shadow 200ms ease;
 }
 
 .pgSelect:focus{
@@ -459,10 +403,7 @@ body{
   box-shadow:0 0 0 3px rgba(175,226,217,0.08);
 }
 
-.pgSelect option{
-  background:#0d1420;
-  color:white;
-}
+.pgSelect option{ background:#0d1420; color:white; }
 
 .selectArrow{
   position:absolute;
@@ -481,7 +422,7 @@ body{
   border:1px solid rgba(175,226,217,0.22);
   background:linear-gradient(135deg,rgba(175,226,217,0.18),rgba(175,226,217,0.08));
   color:#AFE2D9;
-  font-size:15px;
+  font-size:18px;
   font-family:Champion,Arial,sans-serif;
   letter-spacing:.12em;
   cursor:pointer;
@@ -496,15 +437,7 @@ body{
   transform:translateY(-1px);
 }
 
-.pgBtn:active{
-  transform:translateY(0);
-}
-
-.pgBtn:disabled{
-  opacity:0.5;
-  cursor:not-allowed;
-  transform:none;
-}
+.pgBtn:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
 
 .formSuccess{
   display:none;
@@ -519,10 +452,7 @@ body{
   font-family:system-ui,-apple-system,sans-serif;
   font-weight:500;
 }
-
-.formSuccess.show{
-  display:flex;
-}
+.formSuccess.show{ display:flex; }
 
 .successDot{
   width:8px;
@@ -532,193 +462,118 @@ body{
   box-shadow:0 0 12px rgba(175,226,217,0.9);
   flex-shrink:0;
 }
+
+/* =============================================
+   MOBILE
+   ============================================= */
+
 @media (max-width: 768px) {
 
   body{
     overflow:auto;
+    align-items:flex-start;
   }
 
-  .frame{
-    width:100vw;
-    height:auto;
-    min-height:100vh;
-  }
-
-  .scene{
+  #animStage{
     position:relative;
-    height:auto;
     min-height:100vh;
-  }
-
-  .stack{
     width:100%;
-    height:auto;
-    position:relative;
   }
 
-  /* animation layers need height on mobile */
-  .layer{
+  .animInner{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .textSlot{
     position:relative;
     inset:auto;
-    width:100%;
     min-height:100vh;
   }
 
-  /* form panel overrides */
-  #formPanel{
+  #formPage{
     position:relative;
     inset:auto;
-    width:100%;
-    height:auto;
-    min-height:auto;
+    overflow-y:visible;
+    min-height:100vh;
   }
 
   .formOuter{
     flex-direction:column;
-    width:100%;
-    height:auto;
-    gap:0;
+    min-height:auto;
   }
 
   .formLeft{
     flex:0 0 auto;
     width:100%;
-    height:60vw;
-    min-height:240px;
-    max-height:360px;
+    height:56vw;
+    min-height:220px;
+    max-height:340px;
   }
 
   .uxImg{
-    width:100%;
-    height:100%;
-    object-fit:cover;
     object-position:top center;
   }
 
   .formRight{
-    flex:1;
     padding:36px 24px 60px;
-    overflow-y:visible;
+    justify-content:flex-start;
   }
 
-  .formHeadline{
-    font-size:48px;
-  }
-
-  .formEyebrow{
-    font-size:22px;
-  }
+  .formEyebrow{ font-size:22px; }
+  .formHeadline{ font-size:44px; }
 
   .formSub{
     font-size:14px;
-    max-width:100%;
     text-align:left;
+    max-width:100%;
     margin-left:0;
     margin-right:0;
   }
-
-  .pgInput,
-  .pgSelect{
-    font-size:16px; /* prevents iOS zoom on focus */
-  }
-
-  .pgBtn{
-    font-size:18px;
-    padding:18px 24px;
-  }
-
-  /* animation text scales */
-  .big-line{
-    font-size:52px;
-  }
-
-  .mid-line{
-    font-size:46px;
-  }
-
-  .eyebrow{
-    font-size:28px;
-    margin-bottom:20px;
-  }
-
-  .headline{
-    font-size:46px;
-  }
-
-  .launch{
-    font-size:32px;
-  }
-
-  .typeface{
-    width:90vw;
-  }
-
-  .pin{
-    width:180px;
-  }
-
-  .gridWrap{
-    width:90vw;
-    height:90vw;
-  }
-
-  .crossX{
-    width:60vw;
-  }
-
-  .crossY{
-    height:60vw;
-  }
-
 }
+
 </style>
 </head>
 
 <body>
 
-<div class="frame">
-
+<!-- ANIMATION STAGE -->
+<div id="animStage">
   <div class="grain"></div>
 
-  <div class="scene">
+  <div class="animInner">
 
-    <div class="stack">
+    <!-- text frames share same space via absolute -->
+    <div class="textSlot">
 
-      <!-- FRAME 1 -->
-      <div class="layer">
-        <div class="text-block" id="frame1">
-          <div class="eyebrow">SUPPORTING</div>
-          <div class="big-line">FRANCHISORS</div>
-          <div class="big-line">INDEPENDENT OPERATORS</div>
-          <div class="big-line">DEVELOPERS &amp; INVESTORS</div>
+      <div class="text-block" id="frame1" style="position:absolute;inset:0;">
+        <div class="eyebrow">SUPPORTING</div>
+        <div class="big-line">FRANCHISORS</div>
+        <div class="big-line">INDEPENDENT OPERATORS</div>
+        <div class="big-line">DEVELOPERS &amp; INVESTORS</div>
+      </div>
+
+      <div class="text-block" id="frame2" style="position:absolute;inset:0;">
+        <div class="eyebrow">WITH SITE INTELLIGENCE ACROSS</div>
+        <div class="asset-list">
+          <div class="mid-line">HIGH-GROWTH SPORT</div>
+          <div class="mid-line">WELLNESS</div>
+          <div class="mid-line">FOOD &amp; BEVERAGE</div>
         </div>
       </div>
 
-      <!-- FRAME 2 -->
-      <div class="layer">
-        <div class="text-block" id="frame2">
-          <div class="eyebrow">WITH SITE INTELLIGENCE ACROSS</div>
-          <div class="asset-list">
-            <div class="mid-line">HIGH-GROWTH SPORT</div>
-            <div class="mid-line">WELLNESS</div>
-            <div class="mid-line">FOOD &amp; BEVERAGE</div>
-          </div>
+      <div class="text-block" id="frame3" style="position:absolute;inset:0;">
+        <div class="headline">
+          A NEW <span class="accent">GAP MAPPING</span> PLATFORM<br>
+          POWERED BY <span class="accent">ADVANCED AI</span><br>
+          IS COMING SOON
         </div>
       </div>
 
-      <!-- FRAME 3 -->
-      <div class="layer">
-        <div class="text-block" id="frame3">
-          <div class="headline">
-            A NEW <span class="accent">GAP MAPPING</span> PLATFORM<br>
-            POWERED BY <span class="accent">ADVANCED AI</span><br>
-            IS COMING SOON
-          </div>
-        </div>
-      </div>
-
-      <!-- FINAL LOGO -->
-      <div class="layer" id="logoLayer">
+      <!-- LOGO FRAME -->
+      <div id="logoLayer" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:opacity 1s ease;">
         <div class="gridWrap" id="gridWrap">
           <div class="grid"></div>
           <div class="crossX"></div>
@@ -726,69 +581,64 @@ body{
           <div class="dot" id="dot"></div>
           <div class="impactFlash" id="impactFlash"></div>
         </div>
-
         <div class="logoStack">
           <img src="pin.png" class="pin" id="pin" alt="Pin">
           <img src="typeface.png" class="typeface" id="typeface" alt="PickleGrid">
-          <div class="launch" id="launch">
-            LAUNCHING EARLY APRIL
-          </div>
-        </div>
-      </div>
-
-      <!-- INTEREST FORM PANEL -->
-      <div class="layer" id="formPanel">
-        <div class="formOuter">
-          <div class="formLeft">
-            <img src="PickleGrid-UX.png" alt="PickleGrid Platform Preview" class="uxImg" />
-          </div>
-          <div class="formRight">
-            <div class="formEyebrow">EARLY ACCESS</div>
-            <div class="formHeadline">Be first<br><span class="accent">on the map.</span></div>
-            <p class="formSub">We'll notify you the second our map intelligence platform goes live. Drop your details below and we'll be in touch.</p>
-
-            <form class="pgForm" id="pgForm" onsubmit="handleSubmit(event)">
-              <div class="fieldGroup">
-                <label class="fieldLabel">Full Name</label>
-                <input type="text" name="name" class="pgInput" placeholder="" required />
-              </div>
-
-              <div class="fieldGroup">
-                <label class="fieldLabel">Email Address</label>
-                <input type="email" name="email" class="pgInput" placeholder="" required />
-              </div>
-
-              <div class="fieldGroup">
-                <label class="fieldLabel">Primary Asset Interest</label>
-                <div class="selectWrap">
-                  <select name="asset" class="pgSelect" required>
-                    <option value="" disabled selected>Select an asset class</option>
-                    <option value="pickleball">Pickleball</option>
-                    <option value="fnb">Food &amp; Beverage</option>
-                    <option value="gyms">Gyms</option>
-                    <option value="recovery">Recovery</option>
-                  </select>
-                  <span class="selectArrow">▼</span>
-                </div>
-              </div>
-
-              <button type="submit" class="pgBtn" id="pgBtn">
-                <span id="btnText">Notify Me →</span>
-              </button>
-
-              <div class="formSuccess" id="formSuccess">
-                <span class="successDot"></span>
-                You're on the list. We'll be in touch the second we go live.
-              </div>
-            </form>
-          </div>
+          <div class="launch" id="launch">LAUNCHING EARLY APRIL</div>
         </div>
       </div>
 
     </div>
-
   </div>
+</div>
 
+<!-- FORM PAGE -->
+<div id="formPage">
+  <div class="formOuter">
+    <div class="formLeft">
+      <img src="PickleGrid-UX.png" alt="PickleGrid Platform Preview" class="uxImg" />
+    </div>
+    <div class="formRight">
+      <div class="formEyebrow">EARLY ACCESS</div>
+      <div class="formHeadline">Be first<br><span class="accent">on the map.</span></div>
+      <p class="formSub">We'll notify you the second our map intelligence platform goes live. Drop your details below and we'll be in touch.</p>
+
+      <form class="pgForm" id="pgForm" onsubmit="handleSubmit(event)">
+        <div class="fieldGroup">
+          <label class="fieldLabel">Full Name</label>
+          <input type="text" name="name" class="pgInput" placeholder="" required />
+        </div>
+
+        <div class="fieldGroup">
+          <label class="fieldLabel">Email Address</label>
+          <input type="email" name="email" class="pgInput" placeholder="" required />
+        </div>
+
+        <div class="fieldGroup">
+          <label class="fieldLabel">Primary Asset Interest</label>
+          <div class="selectWrap">
+            <select name="asset" class="pgSelect" required>
+              <option value="" disabled selected>Select an asset class</option>
+              <option value="pickleball">Pickleball</option>
+              <option value="fnb">Food &amp; Beverage</option>
+              <option value="gyms">Gyms</option>
+              <option value="recovery">Recovery</option>
+            </select>
+            <span class="selectArrow">▼</span>
+          </div>
+        </div>
+
+        <button type="submit" class="pgBtn" id="pgBtn">
+          <span id="btnText">Notify Me →</span>
+        </button>
+
+        <div class="formSuccess" id="formSuccess">
+          <span class="successDot"></span>
+          You're on the list. We'll be in touch the second we go live.
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -815,42 +665,36 @@ async function run() {
   frame3.classList.add("hide-block-slow");
   await wait(900);
 
-  /* grid fade */
   gridWrap.classList.add("gridShow");
   await wait(300);
 
   dot.classList.add("dotShow");
   await wait(120);
 
-  /* pin drop */
   pin.classList.add("drop");
-
   await wait(700);
 
   impactFlash.classList.add("active");
-
   await wait(350);
 
-  /* logo */
   typeface.classList.add("show");
-
   await wait(600);
 
-  /* launch text */
   launch.classList.add("show");
-
-  /* after 3 seconds on the logo, transition to form */
   await wait(3000);
 
-  /* fade out logo layer */
-  logoLayer.style.transition = "opacity 1s ease";
-  logoLayer.style.opacity = "0";
-  logoLayer.style.pointerEvents = "none";
-
+  /* fade out anim stage */
+  animStage.classList.add("fadeOut");
   await wait(600);
 
-  /* fade in form */
-  formPanel.classList.add("formVisible");
+  /* hide anim stage so it doesn't block scroll on mobile */
+  animStage.style.display = "none";
+
+  /* show form */
+  formPage.classList.add("formVisible");
+
+  /* on mobile, scroll to top so image shows first */
+  window.scrollTo({ top: 0, behavior: "instant" });
 }
 
 run();
@@ -874,8 +718,7 @@ async function handleSubmit(e) {
   };
 
   try {
-    /* Replace this URL with your actual form endpoint (e.g. Formspree, your own API, etc.) */
-    const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+    const res = await fetch("https://formspree.io/f/mdawbqdr", {
       method: "POST",
       headers: { "Content-Type": "application/json", "Accept": "application/json" },
       body: JSON.stringify(payload),
@@ -888,7 +731,6 @@ async function handleSubmit(e) {
       throw new Error("Submit failed");
     }
   } catch (err) {
-    /* fallback — still show success to not frustrate user, log the error */
     console.error(err);
     form.querySelectorAll(".fieldGroup, .pgBtn").forEach(el => el.style.display = "none");
     successMsg.classList.add("show");
