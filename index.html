@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head>  
 <meta charset="UTF-8">
 <title>PickleGrid Launch</title>
 
@@ -78,10 +78,11 @@ body{
   justify-content:center;
 }
 
-.stack{
+.formOuter{
+  display:flex;
   width:940px;
-  height:1200px;
-  position:relative;
+  gap:120px;
+  align-items:center;
 }
 
 .layer{
@@ -320,11 +321,10 @@ body{
   opacity:1;
   pointer-events:auto;
 }
-
 .formOuter{
   display:flex;
   width:940px;
-  gap:56px;
+  gap:120px;
   align-items:center;
 }
 
@@ -337,6 +337,8 @@ body{
   width:200%;
   height:auto;
   display:block;
+  position:relative;
+  left:-50%;
 }
 
 .formRight{
@@ -346,8 +348,9 @@ body{
   gap:0;
 }
 
-.formEyebrow{
-  font-size:13px;
+
+  .formEyebrow{
+  font-size:39px;
   letter-spacing:.22em;
   color:#AFE2D9;
   opacity:.85;
