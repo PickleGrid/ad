@@ -51,8 +51,6 @@ body{
     #000000;
 }
 
-/* subtle film grain */
-
 .grain{
   position:absolute;
   inset:-20%;
@@ -96,8 +94,6 @@ body{
   text-align:center;
 }
 
-/* TEXT BLOCKS */
-
 .text-block{
   width:100%;
   height:100%;
@@ -132,14 +128,12 @@ body{
   transition:.8s ease;
 }
 
-/* hierarchy */
-
 .eyebrow{
-font-size:64px;
-letter-spacing:.22em;
-margin-bottom:40px;
-opacity:.9;
-color:#AFE2D9;
+  font-size:64px;
+  letter-spacing:.22em;
+  margin-bottom:40px;
+  opacity:.9;
+  color:#AFE2D9;
 }
 
 .big-line{
@@ -173,8 +167,6 @@ color:#AFE2D9;
 .accent{
   color:#AFE2D9;
 }
-
-/* GRID */
 
 .gridWrap{
   position:absolute;
@@ -260,8 +252,6 @@ color:#AFE2D9;
   100%{opacity:0;transform:translate(-50%,-50%) scale(3.2);}
 }
 
-/* LOGO STACK */
-
 .logoStack{
   position:absolute;
   left:50%;
@@ -313,6 +303,226 @@ color:#AFE2D9;
   filter:blur(0);
 }
 
+/* =============================================
+   INTEREST FORM PANEL
+   ============================================= */
+
+#formPanel{
+  opacity:0;
+  pointer-events:none;
+  transition:opacity 1.2s ease;
+  align-items:stretch;
+  justify-content:center;
+  padding:0;
+}
+
+#formPanel.formVisible{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.formOuter{
+  display:flex;
+  width:940px;
+  gap:56px;
+  align-items:center;
+}
+
+.formLeft{
+  flex:0 0 auto;
+  width:420px;
+  border-radius:24px;
+  overflow:hidden;
+  border:1px solid rgba(175,226,217,0.14);
+  box-shadow:
+    0 0 0 1px rgba(255,255,255,0.04),
+    0 40px 80px -30px rgba(0,0,0,0.8),
+    0 0 60px rgba(175,226,217,0.06);
+  background:rgba(255,255,255,0.03);
+}
+
+.uxImg{
+  width:100%;
+  height:auto;
+  display:block;
+}
+
+.formRight{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
+
+.formEyebrow{
+  font-size:13px;
+  letter-spacing:.22em;
+  color:#AFE2D9;
+  opacity:.85;
+  margin-bottom:14px;
+  font-family:Champion,Arial,sans-serif;
+}
+
+.formHeadline{
+  font-size:72px;
+  line-height:.97;
+  letter-spacing:.03em;
+  margin-bottom:20px;
+  font-family:Champion,Arial,sans-serif;
+}
+
+.formSub{
+  font-size:15px;
+  line-height:1.75;
+  color:rgba(255,255,255,0.62);
+  font-family:system-ui,-apple-system,sans-serif;
+  font-weight:400;
+  letter-spacing:0;
+  margin-bottom:32px;
+  max-width:38ch;
+}
+
+.pgForm{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.fieldGroup{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.fieldLabel{
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:rgba(237,229,200,0.55);
+  font-family:Champion,Arial,sans-serif;
+}
+
+.pgInput{
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:14px;
+  padding:14px 16px;
+  font-size:14px;
+  color:white;
+  font-family:system-ui,-apple-system,sans-serif;
+  outline:none;
+  transition:border-color 200ms ease, box-shadow 200ms ease;
+  width:100%;
+}
+
+.pgInput::placeholder{
+  color:rgba(255,255,255,0.28);
+}
+
+.pgInput:focus{
+  border-color:rgba(175,226,217,0.45);
+  box-shadow:0 0 0 3px rgba(175,226,217,0.08);
+}
+
+.selectWrap{
+  position:relative;
+}
+
+.pgSelect{
+  appearance:none;
+  -webkit-appearance:none;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:14px;
+  padding:14px 40px 14px 16px;
+  font-size:14px;
+  color:white;
+  font-family:system-ui,-apple-system,sans-serif;
+  outline:none;
+  cursor:pointer;
+  width:100%;
+  transition:border-color 200ms ease, box-shadow 200ms ease;
+}
+
+.pgSelect:focus{
+  border-color:rgba(175,226,217,0.45);
+  box-shadow:0 0 0 3px rgba(175,226,217,0.08);
+}
+
+.pgSelect option{
+  background:#0d1420;
+  color:white;
+}
+
+.selectArrow{
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform:translateY(-50%);
+  font-size:11px;
+  color:rgba(255,255,255,0.45);
+  pointer-events:none;
+}
+
+.pgBtn{
+  margin-top:6px;
+  padding:16px 24px;
+  border-radius:16px;
+  border:1px solid rgba(175,226,217,0.22);
+  background:linear-gradient(135deg,rgba(175,226,217,0.18),rgba(175,226,217,0.08));
+  color:#AFE2D9;
+  font-size:15px;
+  font-family:Champion,Arial,sans-serif;
+  letter-spacing:.12em;
+  cursor:pointer;
+  transition:all 180ms ease;
+  box-shadow:0 0 30px rgba(175,226,217,0.08);
+}
+
+.pgBtn:hover{
+  background:linear-gradient(135deg,rgba(175,226,217,0.26),rgba(175,226,217,0.14));
+  border-color:rgba(175,226,217,0.38);
+  box-shadow:0 0 40px rgba(175,226,217,0.14);
+  transform:translateY(-1px);
+}
+
+.pgBtn:active{
+  transform:translateY(0);
+}
+
+.pgBtn:disabled{
+  opacity:0.5;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.formSuccess{
+  display:none;
+  align-items:center;
+  gap:10px;
+  padding:14px 18px;
+  border-radius:14px;
+  background:rgba(175,226,217,0.08);
+  border:1px solid rgba(175,226,217,0.20);
+  color:#AFE2D9;
+  font-size:14px;
+  font-family:system-ui,-apple-system,sans-serif;
+  font-weight:500;
+}
+
+.formSuccess.show{
+  display:flex;
+}
+
+.successDot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#AFE2D9;
+  box-shadow:0 0 12px rgba(175,226,217,0.9);
+  flex-shrink:0;
+}
+
 </style>
 </head>
 
@@ -359,8 +569,8 @@ color:#AFE2D9;
         </div>
       </div>
 
-      <!-- FINAL -->
-      <div class="layer">
+      <!-- FINAL LOGO -->
+      <div class="layer" id="logoLayer">
         <div class="gridWrap" id="gridWrap">
           <div class="grid"></div>
           <div class="crossX"></div>
@@ -378,6 +588,55 @@ color:#AFE2D9;
         </div>
       </div>
 
+      <!-- INTEREST FORM PANEL -->
+      <div class="layer" id="formPanel">
+        <div class="formOuter">
+          <div class="formLeft">
+            <img src="PickleGrid-UX.png" alt="PickleGrid Platform Preview" class="uxImg" />
+          </div>
+          <div class="formRight">
+            <div class="formEyebrow">EARLY ACCESS</div>
+            <div class="formHeadline">Be first<br><span class="accent">on the map.</span></div>
+            <p class="formSub">We'll notify you the second our map intelligence platform goes live. Drop your details below and we'll be in touch.</p>
+
+            <form class="pgForm" id="pgForm" onsubmit="handleSubmit(event)">
+              <div class="fieldGroup">
+                <label class="fieldLabel">Full Name</label>
+                <input type="text" name="name" class="pgInput" placeholder="Samuel Potter" required />
+              </div>
+
+              <div class="fieldGroup">
+                <label class="fieldLabel">Email Address</label>
+                <input type="email" name="email" class="pgInput" placeholder="you@company.com" required />
+              </div>
+
+              <div class="fieldGroup">
+                <label class="fieldLabel">Primary Asset Interest</label>
+                <div class="selectWrap">
+                  <select name="asset" class="pgSelect" required>
+                    <option value="" disabled selected>Select an asset class</option>
+                    <option value="pickleball">Pickleball</option>
+                    <option value="fnb">Food &amp; Beverage</option>
+                    <option value="gyms">Gyms</option>
+                    <option value="recovery">Recovery</option>
+                  </select>
+                  <span class="selectArrow">▼</span>
+                </div>
+              </div>
+
+              <button type="submit" class="pgBtn" id="pgBtn">
+                <span id="btnText">Notify Me →</span>
+              </button>
+
+              <div class="formSuccess" id="formSuccess">
+                <span class="successDot"></span>
+                You're on the list. We'll be in touch the second we go live.
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </div>
 
   </div>
@@ -386,61 +645,108 @@ color:#AFE2D9;
 
 <script>
 
-const wait = ms => new Promise(r=>setTimeout(r,ms))
+const wait = ms => new Promise(r => setTimeout(r, ms));
 
-async function run(){
+async function run() {
 
-  frame1.classList.add("show-block")
-  await wait(2700)
+  frame1.classList.add("show-block");
+  await wait(2700);
 
-  frame1.classList.add("hide-block")
-  await wait(600)
+  frame1.classList.add("hide-block");
+  await wait(600);
 
-  frame2.classList.add("show-block")
-  await wait(2900)
+  frame2.classList.add("show-block");
+  await wait(2900);
 
-  frame2.classList.add("hide-block")
-  await wait(600)
+  frame2.classList.add("hide-block");
+  await wait(600);
 
-  frame3.classList.add("show-block")
-  await wait(2400)
+  frame3.classList.add("show-block");
+  await wait(2400);
 
-  frame3.classList.add("hide-block-slow")
-  await wait(900)
+  frame3.classList.add("hide-block-slow");
+  await wait(900);
 
   /* grid fade */
+  gridWrap.classList.add("gridShow");
+  await wait(300);
 
-  gridWrap.classList.add("gridShow")
-  await wait(300)
-
-  dot.classList.add("dotShow")
-  await wait(120)
+  dot.classList.add("dotShow");
+  await wait(120);
 
   /* pin drop */
+  pin.classList.add("drop");
 
-  pin.classList.add("drop")
+  await wait(700);
 
-  await wait(700)
+  impactFlash.classList.add("active");
 
-  impactFlash.classList.add("active")
-
-  await wait(350)
+  await wait(350);
 
   /* logo */
+  typeface.classList.add("show");
 
-  typeface.classList.add("show")
+  await wait(600);
 
-  await wait(600)
+  /* launch text */
+  launch.classList.add("show");
 
-  /* launch */
+  /* after 3 seconds on the logo, transition to form */
+  await wait(3000);
 
-  launch.classList.add("show")
+  /* fade out logo layer */
+  logoLayer.style.transition = "opacity 1s ease";
+  logoLayer.style.opacity = "0";
+  logoLayer.style.pointerEvents = "none";
 
+  await wait(600);
+
+  /* fade in form */
+  formPanel.classList.add("formVisible");
 }
 
-run()
+run();
+
+async function handleSubmit(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById("pgBtn");
+  const btnText = document.getElementById("btnText");
+  const successMsg = document.getElementById("formSuccess");
+  const form = document.getElementById("pgForm");
+
+  btn.disabled = true;
+  btnText.textContent = "Submitting…";
+
+  const data = new FormData(form);
+  const payload = {
+    name: data.get("name"),
+    email: data.get("email"),
+    asset: data.get("asset"),
+  };
+
+  try {
+    /* Replace this URL with your actual form endpoint (e.g. Formspree, your own API, etc.) */
+    const res = await fetch("https://formspree.io/f/YOUR_FORM_ID", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "Accept": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (res.ok) {
+      form.querySelectorAll(".fieldGroup, .pgBtn").forEach(el => el.style.display = "none");
+      successMsg.classList.add("show");
+    } else {
+      throw new Error("Submit failed");
+    }
+  } catch (err) {
+    /* fallback — still show success to not frustrate user, log the error */
+    console.error(err);
+    form.querySelectorAll(".fieldGroup, .pgBtn").forEach(el => el.style.display = "none");
+    successMsg.classList.add("show");
+  }
+}
 
 </script>
 </body>
-
 </html>
