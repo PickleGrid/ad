@@ -331,18 +331,10 @@ body{
 .formLeft{
   flex:0 0 auto;
   width:420px;
-  border-radius:24px;
-  overflow:hidden;
-  border:1px solid rgba(175,226,217,0.14);
-  box-shadow:
-    0 0 0 1px rgba(255,255,255,0.04),
-    0 40px 80px -30px rgba(0,0,0,0.8),
-    0 0 60px rgba(175,226,217,0.06);
-  background:rgba(255,255,255,0.03);
 }
 
 .uxImg{
-  width:100%;
+  width:200%;
   height:auto;
   display:block;
 }
@@ -380,6 +372,9 @@ body{
   letter-spacing:0;
   margin-bottom:32px;
   max-width:38ch;
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
 }
 
 .pgForm{
@@ -602,12 +597,12 @@ body{
             <form class="pgForm" id="pgForm" onsubmit="handleSubmit(event)">
               <div class="fieldGroup">
                 <label class="fieldLabel">Full Name</label>
-                <input type="text" name="name" class="pgInput" placeholder="Samuel Potter" required />
+                <input type="text" name="name" class="pgInput" placeholder="" required />
               </div>
 
               <div class="fieldGroup">
                 <label class="fieldLabel">Email Address</label>
-                <input type="email" name="email" class="pgInput" placeholder="you@company.com" required />
+                <input type="email" name="email" class="pgInput" placeholder="" required />
               </div>
 
               <div class="fieldGroup">
