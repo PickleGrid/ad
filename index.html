@@ -312,9 +312,14 @@ body{
   opacity:0;
   pointer-events:none;
   transition:opacity 1.2s ease;
-  align-items:stretch;
+  align-items:center;
   justify-content:center;
   padding:0;
+  position:fixed;
+  inset:0;
+  width:100vw;
+  height:100vh;
+  z-index:100;
 }
 
 #formPanel.formVisible{
@@ -323,22 +328,25 @@ body{
 }
 .formOuter{
   display:flex;
-  width:940px;
-  gap:120px;
-  align-items:center;
+  width:100vw;
+  height:100vh;
+  gap:0;
+  align-items:stretch;
 }
 
-.formLeft{
-  flex:0 0 auto;
-  width:420px;
+  .formLeft{
+  flex:0 0 50%;
+  width:50%;
+  overflow:hidden;
+  position:relative;
 }
 
 .uxImg{
-  width:200%;
-  height:auto;
+  width:100%;
+  height:100%;
   display:block;
-  position:relative;
-  left:-50%;
+  object-fit:cover;
+  object-position:left center;
 }
 
 .formRight{
@@ -346,6 +354,10 @@ body{
   display:flex;
   flex-direction:column;
   gap:0;
+  justify-content:center;
+  padding:60px 80px;
+  overflow-y:auto;
+  background:#000;
 }
 
 
